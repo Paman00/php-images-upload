@@ -1,7 +1,7 @@
 <?php
     session_start();
     if (!isset($_SESSION['username'])) {
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit();
     }
 
@@ -15,19 +15,23 @@
 
         $allowed = array('jpg', 'jpeg', 'png', 'gif', 'avif', 'webp');
 
+        $params = '';
+        $maxSizeInBytes = 1000000;
         if (in_array($fileActualExt, $allowed)) {
             if ($_FILES['image']['error'] > 0) {
-                header("Location: imagenes.php?error=uploaderror");
-            } else if (file_exists('./img/' . $fileName)) {
-                header("Location: imagenes.php?error=exists");
-            }  else if ($fileSize >= 1000000) {
-                header("Location: imagenes.php?error=bigfile");
+                $params = '?error=uploaderror';
+            } else if (file_exists('../img/' . $fileName)) {
+                $params = '?error=exists';
+            }  else if ($fileSize >= $maxSizeInBytes) { 
+                $params = '?error=bigfile';
             } else {
-                move_uploaded_file($temp, './img/' . $fileName);
-                header("Location: imagenes.php?upload=success");
+                move_uploaded_file($temp, '../img/' . $fileName);
+                $params = '?upload=success';
             }
         } else {
-            header("Location: imagenes.php?error=invalidtype");
+            $params = '?error=invalidtype';
         }
+
+        header("Location: ../imagenes.php$params");
     }
 ?>

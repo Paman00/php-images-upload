@@ -6,10 +6,10 @@
         if ($username == "admin" && $password == "1234") {
             session_start();
             $_SESSION['username'] = $username;
-            header("Location: imagenes.php");
+            header("Location: ../imagenes.php");
             exit();
         } else {
-            header("Location: index.php");
+            header("Location: ../index.php");
         }
     }
 ?>
